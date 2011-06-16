@@ -127,7 +127,7 @@ contain errors, return false</pre>
   <span id="var-type">function</span><br />
   <pre id="var-usage">Usage: (has-value? v)
 </pre>
-  <pre id="var-docstr">Returns true if v is truthy and it is not an empty string.</pre>
+  <pre id="var-docstr">Returns true if v is truthy and not an empty string.</pre>
   
   
   
@@ -138,7 +138,7 @@ contain errors, return false</pre>
   <span id="var-type">function</span><br />
   <pre id="var-usage">Usage: (has-values? coll)
 </pre>
-  <pre id="var-docstr">Returns true if the entire collection has-value?</pre>
+  <pre id="var-docstr">Returns true if all members of the collection has-value? This works on maps as well.</pre>
   
   
   
@@ -205,7 +205,7 @@ contain errors, return false</pre>
   <pre id="var-usage">Usage: (rule passed? [field error])
 </pre>
   <pre id="var-docstr">If the passed? condition is not met, add the error text to the given field:
-(rule (not-nil? nil) [:username "Usernames must have a value."])</pre>
+(rule (not-nil? username) [:username "Usernames must have a value."])</pre>
   
   
   
@@ -217,7 +217,7 @@ contain errors, return false</pre>
   <pre id="var-usage">Usage: (set-error field error)
 </pre>
   <pre id="var-docstr">Explicitly set an error for the given field. This can be used to 
-create complex error case, such as in a multi-step login process.</pre>
+create complex error cases, such as in a multi-step login process.</pre>
   
   
   
