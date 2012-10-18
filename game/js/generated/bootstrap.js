@@ -12745,11 +12745,15 @@ game.core.entity = function() {
   b.cljs$lang$arity$variadic = a;
   return b
 }();
+game.core.rem_BANG_ = function(a) {
+  return Game.destroy(a)
+};
 game.core._BANG_ = cljs.core.aset;
 game.core._QMARK_ = cljs.core.aget;
 game.core.add_c = Game.addC;
 game.core.rem_c = Game.remC;
 game.core.all_e = Game.allE;
+game.core.as = Game.as;
 game.lib = {};
 game.lib.util = {};
 game.lib.util.every = function(a, b) {
@@ -13465,6 +13469,15 @@ game.lib.physics.step = function() {
 game.main = {};
 game.main.brush = window.brush("#canvas");
 game.main.key_QMARK_ = input.key;
+game.main.clear = function() {
+  for(var a = cljs.core.count.call(null, Game.entities), b = 0;;) {
+    if(b < a) {
+      game.core.rem_BANG_.call(null, Game.entities[b]), b += 1
+    }else {
+      return null
+    }
+  }
+};
 game.main.position = function(a, b, c) {
   c = cljs.core.truth_(c) ? c : 0;
   return{name:"\ufdd0'position", "\ufdd0'x":a, "\ufdd0'y":b, "\ufdd0'a":c}
@@ -13475,6 +13488,9 @@ game.main.renderable = function(a) {
 game.main.physics = function() {
   return{name:"\ufdd0'physics", "\ufdd0'vx":0, "\ufdd0'vy":0, "\ufdd0'ax":0, "\ufdd0'ay":0}
 };
+game.main.flippable = function() {
+  return{name:"\ufdd0'flippable", "\ufdd0'color":0, "\ufdd0'changed":0}
+};
 game.main.player = function() {
   return{name:"\ufdd0'player"}
 };
@@ -13482,18 +13498,53 @@ game.main.moveable = function() {
   return{name:"\ufdd0'moveable"}
 };
 game.main.bg_render = function(a, b) {
-  game.main.brush.fillStyle("black");
+  var c = cljs.core.first.call(null, game.core.all_e.call(null, "\ufdd0'player")), c = game.core.as.call(null, c, "\ufdd0'flippable"), c = game.core._QMARK_.call(null, c, "\ufdd0'color");
+  game.main.brush.fillStyle(cljs.core._EQ_.call(null, 0, c) ? "black" : "white");
   return game.main.brush.rect({"\ufdd0'x":game.core._QMARK_.call(null, b, "\ufdd0'x"), "\ufdd0'y":game.core._QMARK_.call(null, b, "\ufdd0'y"), "\ufdd0'w":500, "\ufdd0'h":500})
 };
-game.core.entity.call(null, "\ufdd0'background", game.main.position.call(null, 0, 0, 500, 500), game.main.renderable.call(null, game.main.bg_render));
+game.core.entity.call(null, "\ufdd0'background", game.main.position.call(null, 0, 0, 500, 500), game.main.renderable.call(null, function() {
+  var a = function(a) {
+    return cljs.core.apply.call(null, game.main.bg_render, a)
+  }, b = function(b) {
+    var d = null;
+    goog.isDef(b) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0));
+    return a.call(this, d)
+  };
+  b.cljs$lang$maxFixedArity = 0;
+  b.cljs$lang$applyTo = function(b) {
+    b = cljs.core.seq(b);
+    return a(b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}()));
+game.main.player_color = function() {
+  var a = function(a) {
+    var a = cljs.core.nth.call(null, a, 0, null), b = cljs.core.first.call(null, game.core.all_e.call(null, "\ufdd0'player")), b = game.core.as.call(null, b, "\ufdd0'flippable"), b = game.core._QMARK_.call(null, b, "\ufdd0'color");
+    return cljs.core.not.call(null, a) ? b : cljs.core._EQ_.call(null, 0, b) ? 1 : 0
+  }, b = function(b) {
+    var d = null;
+    goog.isDef(b) && (d = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0));
+    return a.call(this, d)
+  };
+  b.cljs$lang$maxFixedArity = 0;
+  b.cljs$lang$applyTo = function(b) {
+    b = cljs.core.seq(b);
+    return a(b)
+  };
+  b.cljs$lang$arity$variadic = a;
+  return b
+}();
+game.main.__GT_color = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray(["white", "#aaa"], !0), cljs.core.PersistentVector.fromArray(["black", "#444"], !0)], !0);
 game.main.player_render = function(a, b) {
-  game.main.brush.fillStyle("#336");
-  game.main.brush.rect({"\ufdd0'x":game.core._QMARK_.call(null, b, "\ufdd0'x") - 20, "\ufdd0'y":game.core._QMARK_.call(null, b, "\ufdd0'y") - 20, "\ufdd0'w":40, "\ufdd0'h":40});
-  game.main.brush.strokeStyle("#88f");
+  var c = Game.as(a, "\ufdd0'flippable"), c = game.core._QMARK_.call(null, c, "\ufdd0'color"), d = game.main.__GT_color.call(null, c), c = cljs.core.nth.call(null, d, 0, null), d = cljs.core.nth.call(null, d, 1, null);
+  game.main.brush.fillStyle(c);
+  game.main.brush.rect({"\ufdd0'x":game.core._QMARK_.call(null, b, "\ufdd0'x") - 12.5, "\ufdd0'y":game.core._QMARK_.call(null, b, "\ufdd0'y") - 25, "\ufdd0'w":25, "\ufdd0'h":50});
+  game.main.brush.strokeStyle(d);
   return game.main.brush.stroke()
 };
-game.core.entity.call(null, "\ufdd0'player", game.main.player.call(null), game.main.moveable.call(null), game.lib.physics.simulate.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'allowSleep", "\ufdd0'fixedRotation"], {"\ufdd0'allowSleep":!1, "\ufdd0'fixedRotation":!0}), cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h"], {"\ufdd0'w":40, "\ufdd0'h":40})), game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", 
-"\ufdd0'h", "\ufdd0'x", "\ufdd0'y", "\ufdd0'sensor"], {"\ufdd0'w":5, "\ufdd0'h":5, "\ufdd0'x":0, "\ufdd0'y":20, "\ufdd0'sensor":!0}))], !0)), game.main.position.call(null, 150, 100), game.main.renderable.call(null, function() {
+game.core.entity.call(null, "\ufdd0'player", game.main.player.call(null), game.main.moveable.call(null), game.main.flippable.call(null), game.lib.physics.simulate.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'allowSleep", "\ufdd0'fixedRotation"], {"\ufdd0'allowSleep":!1, "\ufdd0'fixedRotation":!0}), cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h"], {"\ufdd0'w":25, "\ufdd0'h":50})), game.lib.physics.box_fixture.call(null, 
+cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'x", "\ufdd0'y", "\ufdd0'sensor"], {"\ufdd0'w":5, "\ufdd0'h":5, "\ufdd0'x":0, "\ufdd0'y":25, "\ufdd0'sensor":!0}))], !0)), game.main.position.call(null, 150, 100), game.main.renderable.call(null, function() {
   var a = function(a) {
     return cljs.core.apply.call(null, game.main.player_render, a)
   }, b = function(b) {
@@ -13510,15 +13561,17 @@ game.core.entity.call(null, "\ufdd0'player", game.main.player.call(null), game.m
   return b
 }()));
 game.main.ground_render = function(a, b) {
-  game.main.brush.fillStyle("#363");
+  var c = game.main.__GT_color.call(null, game.main.player_color.call(null)), d = cljs.core.nth.call(null, c, 0, null), c = cljs.core.nth.call(null, c, 1, null);
+  game.main.brush.fillStyle(d);
   game.main.brush.rect({"\ufdd0'x":game.core._QMARK_.call(null, b, "\ufdd0'x") - 250, "\ufdd0'y":game.core._QMARK_.call(null, b, "\ufdd0'y") - 5, "\ufdd0'w":500, "\ufdd0'h":10});
-  game.main.brush.strokeStyle("#8f8");
+  game.main.brush.strokeStyle(c);
   return game.main.brush.stroke()
 };
 game.main.wall_render = function(a, b) {
-  game.main.brush.fillStyle("#363");
+  var c = game.main.__GT_color.call(null, game.main.player_color.call(null)), d = cljs.core.nth.call(null, c, 0, null), c = cljs.core.nth.call(null, c, 1, null);
+  game.main.brush.fillStyle(d);
   game.main.brush.rect({"\ufdd0'x":game.core._QMARK_.call(null, b, "\ufdd0'x") - 5, "\ufdd0'y":game.core._QMARK_.call(null, b, "\ufdd0'y") - 250, "\ufdd0'w":10, "\ufdd0'h":500});
-  game.main.brush.strokeStyle("#8f8");
+  game.main.brush.strokeStyle(c);
   return game.main.brush.stroke()
 };
 game.core.entity.call(null, "\ufdd0'ground", game.lib.physics.simulate.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'static"], {"\ufdd0'static":!0}), cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h"], {"\ufdd0'w":500, "\ufdd0'h":10}))], !0)), game.main.renderable.call(null, function() {
@@ -13586,28 +13639,30 @@ game.core.entity.call(null, "\ufdd0'ground", game.lib.physics.simulate.call(null
   return b
 }()), game.main.position.call(null, 495, 250));
 game.main.badguy_render = function(a, b) {
+  var c = game.main.__GT_color.call(null, 0), d = cljs.core.nth.call(null, c, 0, null), c = cljs.core.nth.call(null, c, 1, null);
   game.main.brush.save();
   game.main.brush.translate(b);
   game.main.brush.rotate(game.core._QMARK_.call(null, b, "\ufdd0'a"));
-  game.main.brush.fillStyle("#636");
+  game.main.brush.fillStyle(d);
   game.main.brush.rect({"\ufdd0'x":-10, "\ufdd0'y":-10, "\ufdd0'w":20, "\ufdd0'h":20});
-  game.main.brush.strokeStyle("#f8f");
-  game.main.brush.stroke();
+  game.main.brush.strokeStyle(c);
+  game.main.brush.stroke(2);
   return game.main.brush.restore()
 };
 game.main.bouncer_render = function(a, b) {
+  var c = game.main.__GT_color.call(null, 1), d = cljs.core.nth.call(null, c, 0, null), c = cljs.core.nth.call(null, c, 1, null);
   game.main.brush.save();
   game.main.brush.translate(b);
   game.main.brush.rotate(game.core._QMARK_.call(null, b, "\ufdd0'a"));
-  game.main.brush.fillStyle("#366");
+  game.main.brush.fillStyle(d);
   game.main.brush.rect({"\ufdd0'x":-10, "\ufdd0'y":-10, "\ufdd0'w":20, "\ufdd0'h":20});
-  game.main.brush.strokeStyle("#8ff");
-  game.main.brush.stroke();
+  game.main.brush.strokeStyle(c);
+  game.main.brush.stroke(2);
   return game.main.brush.restore()
 };
-for(var n__2580__auto____709880 = 10, i__709881 = 0;;) {
-  if(i__709881 < n__2580__auto____709880) {
-    game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'density"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'density":0.2}))], !0)), game.main.renderable.call(null, function() {
+for(var n__2580__auto____874943 = 5, i__874944 = 0;;) {
+  if(i__874944 < n__2580__auto____874943) {
+    game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'density"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":0.5, "\ufdd0'density":0.01}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
           return cljs.core.apply.call(null, game.main.badguy_render, a)
@@ -13624,15 +13679,15 @@ for(var n__2580__auto____709880 = 10, i__709881 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__709881)), game.main.position.call(null, 200, 100));
-    var G__709884 = i__709881 + 1, i__709881 = G__709884
+    }(i__874944)), game.main.position.call(null, 200, 100));
+    var G__874947 = i__874944 + 1, i__874944 = G__874947
   }else {
     break
   }
 }
-for(var n__2580__auto____709885 = 3, i__709886 = 0;;) {
-  if(i__709886 < n__2580__auto____709885) {
-    game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'bullet"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":1.3, "\ufdd0'bullet":!0}))], !0)), game.main.renderable.call(null, function() {
+for(var n__2580__auto____874948 = 5, i__874949 = 0;;) {
+  if(i__874949 < n__2580__auto____874948) {
+    game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'bullet"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":0.5, "\ufdd0'bullet":!0}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
           return cljs.core.apply.call(null, game.main.bouncer_render, a)
@@ -13649,14 +13704,14 @@ for(var n__2580__auto____709885 = 3, i__709886 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__709886)), game.main.position.call(null, 155 + 20 * i__709886, 200));
-    var G__709889 = i__709886 + 1, i__709886 = G__709889
+    }(i__874949)), game.main.position.call(null, 155 + 20 * i__874949, 200));
+    var G__874952 = i__874949 + 1, i__874949 = G__874952
   }else {
     break
   }
 }
-for(var n__2580__auto____709890 = 3, i__709891 = 0;;) {
-  if(i__709891 < n__2580__auto____709890) {
+for(var n__2580__auto____874953 = 0, i__874954 = 0;;) {
+  if(i__874954 < n__2580__auto____874953) {
     game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'bullet"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":1.25, "\ufdd0'bullet":!0}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
@@ -13674,8 +13729,8 @@ for(var n__2580__auto____709890 = 3, i__709891 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__709891)), game.main.position.call(null, 155 + 20 * i__709891, 50));
-    var G__709894 = i__709891 + 1, i__709891 = G__709894
+    }(i__874954)), game.main.position.call(null, 155 + 20 * i__874954, 50));
+    var G__874957 = i__874954 + 1, i__874954 = G__874957
   }else {
     break
   }
@@ -13691,14 +13746,11 @@ game.main.renderer = function(a) {
     }
   }
 };
-game.main.physics_engine = function(a) {
+game.main.changer = function(a) {
   for(var b = cljs.core.count.call(null, a), c = 0;;) {
     if(c < b) {
-      var d = a[c], e = Game.as(d, "\ufdd0'position"), d = Game.as(d, "\ufdd0'physics");
-      cljs.core.not_EQ_.call(null, game.core._QMARK_.call(null, d, "\ufdd0'ax"), 0) && game.core._BANG_.call(null, d, "\ufdd0'vx", game.core._QMARK_.call(null, d, "\ufdd0'vx") + game.core._QMARK_.call(null, d, "\ufdd0'ax"));
-      cljs.core.not_EQ_.call(null, game.core._QMARK_.call(null, d, "\ufdd0'ay"), 0) && game.core._BANG_.call(null, d, "\ufdd0'vy", game.core._QMARK_.call(null, d, "\ufdd0'vy") + game.core._QMARK_.call(null, d, "\ufdd0'ay"));
-      game.core._BANG_.call(null, e, "\ufdd0'x", game.core._QMARK_.call(null, e, "\ufdd0'x") + game.core._QMARK_.call(null, d, "\ufdd0'vx"));
-      game.core._BANG_.call(null, e, "\ufdd0'y", game.core._QMARK_.call(null, e, "\ufdd0'y") + game.core._QMARK_.call(null, d, "\ufdd0'vy"));
+      var d = Game.as(a[c], "\ufdd0'flippable");
+      0 < game.core._QMARK_.call(null, d, "\ufdd0'changed") && game.core._BANG_.call(null, d, "\ufdd0'changed", game.core._QMARK_.call(null, d, "\ufdd0'changed") - 1);
       c += 1
     }else {
       return null
@@ -13710,7 +13762,12 @@ game.main.mover = function(a) {
     if(c < b) {
       var d = a[c];
       Game.as(d, "\ufdd0'position");
-      cljs.core.truth_(game.main.key_QMARK_.call(null, "\ufdd0'left")) ? game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, -5, 0)) : cljs.core.truth_(game.main.key_QMARK_.call(null, "\ufdd0'right")) ? game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, 5, 0)) : game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, 0, 0));
+      var e = Game.as(d, "\ufdd0'flippable");
+      cljs.core.truth_(game.main.key_QMARK_.call(null, "\ufdd0'left")) ? game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, -8, 0)) : cljs.core.truth_(game.main.key_QMARK_.call(null, "\ufdd0'right")) ? game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, 8, 0)) : game.core.add_c.call(null, d, game.lib.physics.phys_velocity.call(null, 0, 0));
+      cljs.core.truth_(function() {
+        var a = cljs.core._EQ_.call(null, 0, game.core._QMARK_.call(null, e, "\ufdd0'changed"));
+        return a ? game.main.key_QMARK_.call(null, "\ufdd0'z") : a
+      }()) && (game.core._BANG_.call(null, e, "\ufdd0'changed", 30), game.core._BANG_.call(null, e, "\ufdd0'color", cljs.core._EQ_.call(null, 0, game.core._QMARK_.call(null, e, "\ufdd0'color")) ? 1 : 0));
       cljs.core.truth_(game.main.key_QMARK_.call(null, "\ufdd0'space")) && game.core.add_c.call(null, d, game.lib.physics.phys_impulse.call(null, 0, -5));
       c += 1
     }else {
@@ -13718,14 +13775,12 @@ game.main.mover = function(a) {
     }
   }
 };
-game.lib.util.every.call(null, 1E3, function() {
-  return jayq.core.text.call(null, jayq.core.$.call(null, "#fps"), game.core._QMARK_.call(null, game.main.fps, "\ufdd0'fps"))
-});
 game.main.stats = new Stats;
 game.main.stats.setMode(2);
 document.body.appendChild(game.main.stats.domElement);
 game.main.game_loop = function game_loop() {
   game.main.stats.begin();
+  game.main.changer.call(null, game.core.all_e.call(null, "\ufdd0'flippable"));
   game.main.mover.call(null, game.core.all_e.call(null, "\ufdd0'moveable"));
   game.lib.physics.step.call(null);
   game.main.brush.save();
