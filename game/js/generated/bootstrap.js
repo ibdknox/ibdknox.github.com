@@ -13544,7 +13544,7 @@ game.main.player_color = function() {
   b.cljs$lang$arity$variadic = a;
   return b
 }();
-game.main.__GT_color = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray(["white", "#aaa"], !0), cljs.core.PersistentVector.fromArray(["black", "#444"], !0)], !0);
+game.main.__GT_color = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray(["#ddd", "#ddd"], !0), cljs.core.PersistentVector.fromArray(["#333", "#333"], !0)], !0);
 game.main.player_render = function(a, b) {
   var c = Game.as(a, "\ufdd0'flippable"), c = game.core._QMARK_.call(null, c, "\ufdd0'color"), d = game.main.__GT_color.call(null, c), c = cljs.core.nth.call(null, d, 0, null), d = cljs.core.nth.call(null, d, 1, null);
   game.main.brush.fillStyle(c);
@@ -13713,8 +13713,8 @@ game.main.bouncer_render = function(a, b) {
   game.main.brush.stroke(2);
   return game.main.brush.restore()
 };
-for(var n__2580__auto____974344 = 5, i__974345 = 0;;) {
-  if(i__974345 < n__2580__auto____974344) {
+for(var n__2580__auto____986305 = 5, i__986306 = 0;;) {
+  if(i__986306 < n__2580__auto____986305) {
     game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'density"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":0.5, "\ufdd0'density":0.01}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
@@ -13732,14 +13732,14 @@ for(var n__2580__auto____974344 = 5, i__974345 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__974345)), game.main.position.call(null, 200, 100));
-    var G__974348 = i__974345 + 1, i__974345 = G__974348
+    }(i__986306)), game.main.position.call(null, 200, 100));
+    var G__986309 = i__986306 + 1, i__986306 = G__986309
   }else {
     break
   }
 }
-for(var n__2580__auto____974349 = 5, i__974350 = 0;;) {
-  if(i__974350 < n__2580__auto____974349) {
+for(var n__2580__auto____986310 = 5, i__986311 = 0;;) {
+  if(i__986311 < n__2580__auto____986310) {
     game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'bullet"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":0.5, "\ufdd0'bullet":!0}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
@@ -13757,14 +13757,14 @@ for(var n__2580__auto____974349 = 5, i__974350 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__974350)), game.main.position.call(null, 155 + 20 * i__974350, 200));
-    var G__974353 = i__974350 + 1, i__974350 = G__974353
+    }(i__986311)), game.main.position.call(null, 155 + 20 * i__986311, 200));
+    var G__986314 = i__986311 + 1, i__986311 = G__986314
   }else {
     break
   }
 }
-for(var n__2580__auto____974354 = 0, i__974355 = 0;;) {
-  if(i__974355 < n__2580__auto____974354) {
+for(var n__2580__auto____986315 = 0, i__986316 = 0;;) {
+  if(i__986316 < n__2580__auto____986315) {
     game.core.entity.call(null, "\ufdd0'block", game.lib.physics.simulate.call(null, cljs.core.ObjMap.EMPTY, cljs.core.PersistentVector.fromArray([game.lib.physics.box_fixture.call(null, cljs.core.ObjMap.fromObject(["\ufdd0'w", "\ufdd0'h", "\ufdd0'restitution", "\ufdd0'bullet"], {"\ufdd0'w":20, "\ufdd0'h":20, "\ufdd0'restitution":1.25, "\ufdd0'bullet":!0}))], !0)), game.main.renderable.call(null, function() {
       return function() {
         var a = function(a) {
@@ -13782,8 +13782,8 @@ for(var n__2580__auto____974354 = 0, i__974355 = 0;;) {
         b.cljs$lang$arity$variadic = a;
         return b
       }()
-    }(i__974355)), game.main.position.call(null, 155 + 20 * i__974355, 50));
-    var G__974358 = i__974355 + 1, i__974355 = G__974358
+    }(i__986316)), game.main.position.call(null, 155 + 20 * i__986316, 50));
+    var G__986319 = i__986316 + 1, i__986316 = G__986319
   }else {
     break
   }
